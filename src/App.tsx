@@ -40,7 +40,7 @@ export default function App() {
   useEffect(() => {
     if (showSplash) {
       if (videoRef.current) {
-        videoRef.current.play().catch(() => {});
+        videoRef.current.play().catch(() => { });
       }
       const safetyTimer = setTimeout(() => {
         setShowSplash(false);
@@ -123,7 +123,7 @@ export default function App() {
   const cartSubtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
   return (
-    <div className="relative w-screen h-[100dvh] bg-[#000000] text-[#E0E0E0] font-mono select-none overflow-hidden flex flex-col justify-between">
+    <div className="fixed inset-0 w-full h-full bg-[#000000] text-[#E0E0E0] font-mono select-none overflow-hidden flex flex-col justify-between">
       {/* Texture de fond bruitée */}
       <div
         className="pointer-events-none absolute inset-0 z-50 opacity-[0.035]"
@@ -219,7 +219,7 @@ export default function App() {
                     hasDragged.current = false;
                   }, 120);
                 }}
-                className="relative w-full max-w-5xl h-[360px] md:h-[440px] flex items-center justify-center cursor-grab active:cursor-grabbing touch-pan-y"
+                className="relative w-full max-w-5xl h-[360px] md:h-[440px] flex items-center justify-center cursor-grab active:cursor-grabbing touch-pan-x"
               >
                 {[-3, -2, -1, 0, 1, 2, 3].map((offset) => {
                   const slotIndex = virtualIndex + offset;
@@ -249,13 +249,12 @@ export default function App() {
                         zIndex: isCenter ? 30 : isAdjacent ? 20 : 10,
                       }}
                       transition={{ type: "spring", stiffness: 260, damping: 28 }}
-                      className={`absolute w-[220px] h-[220px] md:w-[320px] md:h-[320px] flex flex-col items-center justify-center group select-none ${
-                        isCenter
+                      className={`absolute w-[220px] h-[220px] md:w-[320px] md:h-[320px] flex flex-col items-center justify-center group select-none ${isCenter
                           ? "cursor-pointer"
                           : isAdjacent
-                          ? "cursor-pointer"
-                          : "pointer-events-none"
-                      }`}
+                            ? "cursor-pointer"
+                            : "pointer-events-none"
+                        }`}
                     >
                       <div className="w-full h-full flex items-center justify-center p-2">
                         {product.imageUrl ? (
@@ -263,9 +262,8 @@ export default function App() {
                             src={product.imageUrl}
                             alt={product.name}
                             draggable={false}
-                            className={`max-w-full max-h-full object-contain pointer-events-none select-none drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] ${
-                              product.id === "pinz-frelsi" ? "rounded-lg border border-[#222]" : ""
-                            }`}
+                            className={`max-w-full max-h-full object-contain pointer-events-none select-none drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)] ${product.id === "pinz-frelsi" ? "rounded-lg border border-[#222]" : ""
+                              }`}
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center pointer-events-none">
@@ -329,7 +327,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-30 px-6 md:px-12 py-4 border-t border-[#141414] flex justify-between items-center text-[10px] text-[#444] tracking-widest">
+      <footer className="relative z-30 px-6 md:px-12 pt-2.5 pb-[max(1rem,env(safe-area-inset-bottom,16px))] md:py-4 border-t border-[#141414] flex justify-between items-center text-[10px] text-[#444] tracking-widest leading-none">
         <span>DROITS RÉSERVÉS © {new Date().getFullYear()}</span>
       </footer>
 
