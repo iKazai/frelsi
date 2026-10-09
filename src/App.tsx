@@ -139,7 +139,7 @@ export default function App() {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6 }}
-            className="fixed inset-0 z-[100] bg-[#000000] flex items-center justify-center overflow-hidden"
+            className="fixed inset-0 z-[100] bg-[#000000] flex items-center justify-center p-4 md:p-8 overflow-hidden"
           >
             <video
               ref={videoRef}
@@ -148,12 +148,12 @@ export default function App() {
               muted
               playsInline
               onEnded={() => setShowSplash(false)}
-              className="w-full h-full object-cover md:object-contain cursor-pointer"
+              className="w-full h-full max-w-full max-h-full object-contain cursor-pointer"
               onClick={() => setShowSplash(false)}
             />
             <button
               onClick={() => setShowSplash(false)}
-              className="absolute top-6 right-6 md:top-8 md:right-10 text-xs tracking-[0.2em] text-[#AAA] hover:text-[#FFF] bg-[#000]/75 hover:bg-[#000] border border-[#333] px-3.5 py-1.5 transition-all focus:outline-none z-20 cursor-pointer"
+              className="absolute top-4 right-4 md:top-8 md:right-10 text-[10px] md:text-xs tracking-[0.2em] text-[#AAA] hover:text-[#FFF] bg-[#000]/75 hover:bg-[#000] border border-[#333] px-3 py-1.5 md:px-3.5 md:py-1.5 transition-all focus:outline-none z-20 cursor-pointer"
             >
               PASSER [✕]
             </button>
@@ -221,15 +221,17 @@ export default function App() {
                 }}
                 className="relative w-full max-w-5xl h-[360px] md:h-[440px] flex items-center justify-center cursor-grab active:cursor-grabbing touch-pan-y"
               >
-                {[-2, -1, 0, 1, 2].map((offset) => {
+                {[-3, -2, -1, 0, 1, 2, 3].map((offset) => {
                   const slotIndex = virtualIndex + offset;
                   const productIndex = ((slotIndex % totalProducts) + totalProducts) % totalProducts;
                   const product = PRODUCTS[productIndex];
                   const isCenter = offset === 0;
+                  const isAdjacent = Math.abs(offset) === 1;
 
                   return (
                     <motion.div
                       key={slotIndex}
+                      initial={false}
                       onClick={() => {
                         if (hasDragged.current) return;
                         if (isCenter) {
@@ -242,15 +244,15 @@ export default function App() {
                       }}
                       animate={{
                         x: offset * spacing,
-                        scale: isCenter ? 1 : Math.abs(offset) === 1 ? 0.68 : 0.45,
-                        opacity: isCenter ? 1 : Math.abs(offset) === 1 ? 0.28 : 0,
-                        zIndex: isCenter ? 30 : Math.abs(offset) === 1 ? 20 : 10,
+                        scale: isCenter ? 1 : isAdjacent ? 0.68 : 0.45,
+                        opacity: isCenter ? 1 : isAdjacent ? 0.28 : 0,
+                        zIndex: isCenter ? 30 : isAdjacent ? 20 : 10,
                       }}
                       transition={{ type: "spring", stiffness: 260, damping: 28 }}
                       className={`absolute w-[220px] h-[220px] md:w-[320px] md:h-[320px] flex flex-col items-center justify-center group select-none ${
                         isCenter
                           ? "cursor-pointer"
-                          : Math.abs(offset) === 1
+                          : isAdjacent
                           ? "cursor-pointer"
                           : "pointer-events-none"
                       }`}
@@ -328,7 +330,6 @@ export default function App() {
 
       {/* Footer */}
       <footer className="relative z-30 px-6 md:px-12 py-4 border-t border-[#141414] flex justify-between items-center text-[10px] text-[#444] tracking-widest">
-        <span>SWIPE OU TOUCHES FLÉCHÉES POUR DÉFILER</span>
         <span>DROITS RÉSERVÉS © {new Date().getFullYear()}</span>
       </footer>
 
